@@ -3,10 +3,10 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Controller\AbstractFrontEndController;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractFrontEndController
 {
     /**
      * @Route("/", name="homepage")
@@ -14,10 +14,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $dataProvider = $this->getDataProvider();
+
+        $params = $this->getAsideData();
+        $params['lastArticles'] = $dataProvider->getAllArticles();
 
         return $this->render(
             'default/index.html.twig',
-            array()
+            $params
         );
     }
 
@@ -28,7 +32,7 @@ class DefaultController extends Controller
     public function aboutAction(){
         return $this->render(
             'static/about.html.twig',
-            array()
+            $this->getAsideData()
         );
     }
 
@@ -41,4 +45,6 @@ class DefaultController extends Controller
         $data = $dataProvider->getAllArticles();
         return $this->render('default/test.html.twig', array('data' => $data));
     }
+
+
 }

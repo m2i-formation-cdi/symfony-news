@@ -4,9 +4,10 @@
     <div class="panel panel-info">
         <div class="panel-heading">Les tags</div>
         <div class="panel-body">
-            <ul>
-                <li>PHP (5)</li>
-                <li>Symfony (8)</li>
+            <ul class="list-inline">
+                {% for tag in tags %}
+                    <li>{{ tag.tagName }} ({{ tag.numberOfArticles }})</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -14,9 +15,10 @@
     <div class="panel panel-info">
         <div class="panel-heading">Archive</div>
         <div class="panel-body">
-            <ul>
-                <li>2016 (5)</li>
-                <li>2015 (8)</li>
+            <ul class="list-inline">
+                {% for archive in archives %}
+                    <li>{{ archive.year }} ({{ archive.numberOfArticles }})</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -24,10 +26,10 @@
     <div class="panel panel-info">
         <div class="panel-heading">Les auteurs</div>
         <div class="panel-body">
-            <ul>
-                <li>Pierre (5)</li>
-                <li>Paul (8)</li>
-                <li>Jacques</li>
+            <ul class="list-inline">
+                {% for author in authors %}
+                    <li>{{ author.fullName }} ({{ author.numberOfArticles }})</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -35,12 +37,27 @@
     <div class="panel panel-info">
         <div class="panel-heading">Les plus populaires</div>
         <div class="panel-body">
+            {% for article in popularArticles %}
+                <div>
+                    <h4>{{ article.title }}</h4>
+                    <strong>le {{ article.createdAt | date('d/m/Y') }} par {{ article.author.fullName }}</strong>
+                    <p>{{ article.lead }}</p>
+                </div>
+                <hr>
+            {% endfor %}
         </div>
     </div>
 
     <div class="panel panel-info">
         <div class="panel-heading">Les derniers commentaires</div>
         <div class="panel-body">
+            {% for comment in lastComments %}
+                <div>
+                    <strong>le {{ comment.date | date('d/m/Y') }} par {{ comment.author }}</strong>
+                    <p>{{ comment.text }}</p>
+                </div>
+                <hr>
+            {% endfor %}
         </div>
     </div>
 

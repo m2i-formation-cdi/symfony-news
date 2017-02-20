@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\AbstractFrontEndController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("article")
  */
 
-class ArticleController extends Controller
+class ArticleController extends AbstractFrontEndController
 {
     /**
      * @Route("/", name="article_list")
@@ -21,7 +21,12 @@ class ArticleController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('article/index.html.twig');
+        $dataProvider = $this->getDataProvider();
+
+        $params = $this->getAsideData();
+        $params['allArticles'] = $dataProvider->getAllArticles();
+
+        return $this->render('article/index.html.twig', $params);
     }
 
     /**
@@ -30,7 +35,12 @@ class ArticleController extends Controller
      */
     public function detailsAction()
     {
-        return $this->render('article/details.html.twig');
+        $dataProvider = $this->getDataProvider();
+
+        $params = $this->getAsideData();
+        $params['article'] = $dataProvider->getOneArticle();
+
+        return $this->render('article/details.html.twig', $params);
     }
 
     /**

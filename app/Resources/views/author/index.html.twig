@@ -25,9 +25,13 @@
 {% endblock %}
 
 {% block aside %}
-    <ul class="nav nav-pills nav-stacked">
-        <li><a href="{{ path('article_new') }}" class="btn btn-default">Nouvel article</a></li>
-        <li><a href="{{ path('author_edit') }}" class="btn btn-default">Modifier mon compte</a></li>
-    </ul>
 
+    <ul class="nav nav-pills nav-stacked">
+        <li>
+            <a href="{{ path('article_new') }}">Nouvel article</a>
+        </li>
+        <li>
+            <a href="{{ path('author_edit') }}">Modifier mon compte</a>
+        </li>
+    </ul>
 {% endblock %}
