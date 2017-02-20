@@ -2,11 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Article;
 use AppBundle\Entity\Author;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Image;
+use AppBundle\Entity\Tag;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use DateTime;
 
 /**
  * Class PlaygroundController
@@ -96,6 +101,54 @@ class PlaygroundController extends Controller
 
             $em->flush();
         }
+    }
+
+    /**
+     * @Route("/article")
+     * @return Response
+     */
+    public function testArticleAction(){
+        $authorRepo = $this->getAuthorRepository();
+        $author = $authorRepo->findOneBy(array('email' =>'plegrand@gmail.com'));
+
+        $image = new Image();
+        $image->setFileName('img02.jpg')
+            ->setLegend('ma belle image')
+            ->setCredit('mon oeuvre à moi');
+
+        $article = new Article();
+        $article->setAuthor($author)
+            ->setTitle('Mon premier article')
+            ->setLead('bla bla')
+            ->setText('lorem ipsum')
+            ->setCreatedAt(new DateTime('today'))
+            ->setImage($image);
+
+        $tag = new Tag();
+        $tag->setTagName('Java');
+        $article->addTag($tag);
+
+        $tag = new Tag();
+        $tag->setTagName('Hibernate');
+        $article->addTag($tag);
+
+
+        //Persistence de l'article
+        $em = $this->getDoctrineManager();
+
+        $em->persist($article);
+
+        $em->flush();
+
+
+        $articleRepo = $this->getDoctrine()->getRepository('AppBundle:Article');
+        $articles = $articleRepo->findAll();
+
+
+        return $this->render('playground/article-playground.html.twig',
+            array('articles' => $articles)
+
+        );
     }
 
     /**
