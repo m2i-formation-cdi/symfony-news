@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Author;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -27,6 +28,8 @@ class Article
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Le titre ne peut être vide")
+     *
      * @ORM\Column(name="title", type="string", length=80, unique=true)
      */
     private $title;
@@ -34,12 +37,16 @@ class Article
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Le chapô ne peut être vide")
+     *
      * @ORM\Column(name="lead", type="text")
      */
     private $lead;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank(message="Le corps de l'article ne peut être vide")
      *
      * @ORM\Column(name="text", type="text")
      */
