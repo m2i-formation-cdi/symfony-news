@@ -1,7 +1,12 @@
 {% extends 'layouts/front-layout.html.twig' %}
 
 {% block content %}
-    <h2>Liste des articles</h2>
+    <h2>
+        Liste des articles
+        {% if queryTitle is defined %}
+            {{ queryTitle }}
+        {% endif %}
+    </h2>
 
         {% for article in allArticles %}
         <div class="panel panel-default">

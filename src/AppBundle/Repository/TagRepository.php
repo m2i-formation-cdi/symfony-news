@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+    public function getTagList(){
+        $qb = $this->createQueryBuilder('t')
+            ->select('t.id, t.tagName, COUNT(a.id) as numberOfArticles')
+            ->join('t.articles','a')
+            ->addGroupBy('t.id');
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

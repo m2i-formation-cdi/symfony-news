@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
+    public function getLastComments($numberOfComments){
+        return $this->findBy(
+            array(),
+            array('createdAt' => 'DESC'),
+            $numberOfComments,
+            0
+        );
+    }
 }

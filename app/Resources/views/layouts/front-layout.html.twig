@@ -6,7 +6,11 @@
         <div class="panel-body">
             <ul class="list-inline">
                 {% for tag in tags %}
-                    <li>{{ tag.tagName }} ({{ tag.numberOfArticles }})</li>
+                    <li>
+                        <a href="{{ path('article_by_tag', {'tag' : tag.tagName}) }}">
+                        {{ tag.tagName }} ({{ tag.numberOfArticles }})
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -17,7 +21,11 @@
         <div class="panel-body">
             <ul class="list-inline">
                 {% for archive in archives %}
-                    <li>{{ archive.year }} ({{ archive.numberOfArticles }})</li>
+                    <li>
+                        <a href="{{ path('article_by_year', {'year' : archive.year_published}) }}">
+                        {{ archive.year_published }} ({{ archive.numberOfArticles }})
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -28,7 +36,11 @@
         <div class="panel-body">
             <ul class="list-inline">
                 {% for author in authors %}
-                    <li>{{ author.fullName }} ({{ author.numberOfArticles }})</li>
+                    <li>
+                        <a href="{{ path('article_by_author', {'id' : author.id}) }}">
+                        {{ author.fullName }} ({{ author.numberOfArticles }})
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -39,8 +51,15 @@
         <div class="panel-body">
             {% for article in popularArticles %}
                 <div>
-                    <h4>{{ article.title }}</h4>
-                    <strong>le {{ article.createdAt | date('d/m/Y') }} par {{ article.author.fullName }}</strong>
+                    <h4>
+                        <a href="{{ path('article_details', {'id': article.id}) }}">
+                        {{ article.title }}
+                        </a>
+                    </h4>
+                    <strong>
+                        le {{ article.createdAt | date('d/m/Y') }} par {{ article.authorName }}
+                        ({{ article.numberOfComments }} commentaires)
+                    </strong>
                     <p>{{ article.lead }}</p>
                 </div>
                 <hr>
@@ -53,7 +72,11 @@
         <div class="panel-body">
             {% for comment in lastComments %}
                 <div>
-                    <strong>le {{ comment.date | date('d/m/Y') }} par {{ comment.author }}</strong>
+                    <strong>
+                        <a href="{{ path('article_details', {'id': comment.article.id}) }}">
+                        le {{ comment.createdAt | date('d/m/Y') }} par {{ comment.author }}
+                        </a>
+                    </strong>
                     <p>{{ comment.text }}</p>
                 </div>
                 <hr>

@@ -14,10 +14,12 @@ class DefaultController extends AbstractFrontEndController
      */
     public function indexAction()
     {
-        $dataProvider = $this->getDataProvider();
+        //$dataProvider = $this->getDataProvider();
+        $ArticleRepository = $this->getDoctrine()->getRepository('AppBundle:Article');
+        $lastArticles = $ArticleRepository->getLastArticles(4);
 
         $params = $this->getAsideData();
-        $params['lastArticles'] = $dataProvider->getAllArticles();
+        $params['lastArticles'] = $lastArticles;
 
         return $this->render(
             'default/index.html.twig',

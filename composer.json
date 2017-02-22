@@ -30,7 +30,9 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "twig/twig": "^1.0||^2.0",
         "doctrine/doctrine-fixtures-bundle": "~2.2.0",
-        "fzaninotto/faker": "^1.5"
+        "fzaninotto/faker": "^1.5",
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "oro/doctrine-extensions": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

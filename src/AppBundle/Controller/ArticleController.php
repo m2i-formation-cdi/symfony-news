@@ -21,10 +21,10 @@ class ArticleController extends AbstractFrontEndController
      */
     public function indexAction()
     {
-        $dataProvider = $this->getDataProvider();
+        $articleRepository= $this->getDoctrine()->getRepository('AppBundle:Article');
 
         $params = $this->getAsideData();
-        $params['allArticles'] = $dataProvider->getAllArticles();
+        $params['allArticles'] = $articleRepository->findAll();
 
         return $this->render('article/index.html.twig', $params);
     }
@@ -33,14 +33,66 @@ class ArticleController extends AbstractFrontEndController
      * @Route("/{id}", name="article_details")
      * @return Response
      */
-    public function detailsAction()
+    public function detailsAction($id)
     {
-        $dataProvider = $this->getDataProvider();
+        $articleRepository = $this->getDoctrine()->getRepository('AppBundle:Article');
 
         $params = $this->getAsideData();
-        $params['article'] = $dataProvider->getOneArticle();
+        $params['article'] = $articleRepository->find($id);
 
         return $this->render('article/details.html.twig', $params);
+    }
+
+    /**
+     * @Route("/by-tag/{tag}", name="article_by_tag")
+     * @param $tag
+     * @return Response
+     */
+    public function showByTagAction($tag){
+        $articleRepository = $this->getDoctrine()->getRepository('AppBundle:Article');
+
+        $params = $this->getAsideData();
+        $params['allArticles'] = $articleRepository->getArticleByTag($tag);
+        $params['queryTitle'] = "par tag : $tag";
+
+        return $this->render('article/index.html.twig', $params);
+    }
+
+    /**
+     * @Route("/by-year/{year}", name="article_by_year",
+     * requirements={"year": "\d{4}"}
+     * )
+     * @param $year
+     * @return Response
+     */
+    public function showByYearAction($year){
+        $articleRepository = $this->getDoctrine()->getRepository('AppBundle:Article');
+
+        $params = $this->getAsideData();
+        $params['allArticles'] = $articleRepository->getArticleByYear($year);
+        $params['queryTitle'] = "par année : $year";
+
+        return $this->render('article/index.html.twig', $params);
+    }
+
+    /**
+     * @Route("/by-author/{id}", name="article_by_author",
+     * requirements={"id": "\d+"}
+     * )
+     * @param $id
+     * @return Response
+     */
+    public function showByAuyhorAction($id){
+        $articleRepository = $this->getDoctrine()->getRepository('AppBundle:Article');
+        $authorRepository = $this->getDoctrine()->getRepository('AppBundle:Author');
+
+        $author = $authorRepository->find($id);
+
+        $params = $this->getAsideData();
+        $params['allArticles'] = $articleRepository->getArticleByAuthor($id);
+        $params['queryTitle'] = "par auteur : ".$author->getFullName();
+
+        return $this->render('article/index.html.twig', $params);
     }
 
     /**
@@ -53,6 +105,4 @@ class ArticleController extends AbstractFrontEndController
     {
         return $this->render('article/form.html.twig');
     }
-
-
 }

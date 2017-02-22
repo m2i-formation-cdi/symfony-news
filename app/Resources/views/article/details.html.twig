@@ -4,51 +4,55 @@
 
     <div class="jumbotron">
         <h1>{{ article.title }}</h1>
-        <div class="col-md-3">par {{ article.author.fullName }} le&nbsp;{{ article.createdAt | date('d/m/Y') }}</div>
-        <div class="col-md-9">
-            <ul class="list-inline">
-                {% for tag in article.tags %}
-                    <li>{{ tag.tagName }}</li>
+        <div class="row">
+            <div class="col-md-4">par {{ article.author.fullName }}
+                le&nbsp;{{ article.createdAt | date('d/m/Y') }}</div>
+            <div class="col-md-8">
+                <ul class="list-inline">
+                    {% for tag in article.tags %}
+                        <li>{{ tag.tagName }}</li>
                     {% endfor %}
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <img class="img-responsive"
-             src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
-        <figure>
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-responsive"
+                 src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
+            <figure>
 
-            <figcaption>
-                {{ article.image.legend }}<br>
-                crédit : {{ article.image.credit }}
-            </figcaption>
-        </figure>
+                <figcaption>
+                    {{ article.image.legend }}<br>
+                    crédit : {{ article.image.credit }}
+                </figcaption>
+            </figure>
+        </div>
+
+        <div class="col-md-8">
+            <p class="lead">{{ article.lead }}</p>
+            <p>{{ article.text }}</p>
+        </div>
     </div>
-
-    <div class="col-md-8">
-        <p>{{ article.lead }}</p>
-        <p>{{ article.text }}</p>
-    </div>
-
 
     <h2>{{ article.comments | length }} commentaires</h2>
-
-    <div class="col-md-4">
-        Formulaire ajout de commentaire
-    </div>
-
-    <div class="col-md-8">
-        {% for comment in article.comments %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                le {{ comment.date | date('d/m/Y') }} par {{ comment.author }}
-            </div>
-            <div class="panel-body">
-                <p>{{ comment.text }}</p>
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+            Formulaire ajout de commentaire
         </div>
-        {% endfor %}
-    </div>
 
+        <div class="col-md-8">
+            {% for comment in article.comments %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        le {{ comment.createdAt | date('d/m/Y') }} par {{ comment.author }}
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

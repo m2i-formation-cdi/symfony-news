@@ -152,6 +152,25 @@ class PlaygroundController extends Controller
     }
 
     /**
+     * @Route("/query")
+     */
+    public function testQueries(){
+        $tagRepository= $this->getDoctrine()->getRepository('AppBundle:Tag');
+        $data = $tagRepository->getTagList();
+
+        $articleRepository= $this->getDoctrine()->getRepository('AppBundle:Article');
+        $data = $articleRepository->getArchive();
+
+        //$authorRepository = $this->getDoctrine()->getRepository('AppBundle:Author');
+        $data = $articleRepository->getAuthorListForAside();
+        $data = $articleRepository->getMostPopularArticles(20);
+
+        return $this->render('playground/query-playground.html.twig',
+            array('data' => $data)
+        );
+    }
+
+    /**
      * @return EntityManager
      */
     private function getDoctrineManager(){

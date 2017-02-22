@@ -31,7 +31,7 @@ class ArticleFixture extends AbstractFixture implements OrderedFixtureInterface
             $articles[$i] = new Article();
             $articles[$i]->setTitle($faker->text(50))
                 ->setLead($faker->text(200))
-                ->setText($faker->text)
+                ->setText($faker->text(1500))
                 ->setCreatedAt($faker->dateTimeThisDecade)
                 ->setAuthor(
                   $this->getReference('author_'.mt_rand(0,4))
