@@ -39,6 +39,27 @@ class DefaultController extends AbstractFrontEndController
     }
 
     /**
+     * @Route("/login/admin", name="admin_login")
+     * @return Response
+     */
+    public function adminLoginAction(){
+
+        $securityUtils = $this->get('security.authentication_utils');
+        //Dernier utilisateur saisi
+        $lastUserName = $securityUtils->getLastUsername();
+        //Erreurs éventuelles
+        $error = $securityUtils->getLastAuthenticationError();
+
+        return $this->render(
+            'default/admin-login.html.twig',
+            array(
+                'userName'  => $lastUserName,
+                'error'     => $error
+            )
+        );
+    }
+
+    /**
      * @Route("/test")
      * @return Response
      */

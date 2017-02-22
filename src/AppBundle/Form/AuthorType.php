@@ -3,11 +3,8 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,15 +23,7 @@ class AuthorType extends AbstractType
             ->add('name', TextType::class, array('label' => 'Nom'))
             ->add('firstName', TextType::class, array('label' => 'Prénom'))
             ->add('email', EmailType::class, array('label' => 'e-mail'))
-            //->add('password', PasswordType::class, array('label' => 'mot de passe'))
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les deux saisie doivent être identique',
-                'options' => array('required' => true),
-                'first_options' => array('label' => 'mot de passe'),
-                'second_options' => array('label' => 'confirmation')
-            ))
-
+            ->add('password', PasswordType::class, array('label' => 'mot de passe'))
             ->add('Enregistrer',SubmitType::class)
             ->add('Annuler',ResetType::class)
         ;
