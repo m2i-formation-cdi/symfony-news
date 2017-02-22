@@ -10,6 +10,7 @@ use AppBundle\Entity\Article;
  *
  * @ORM\Table(name="comments")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
+ * @ORM\HasLifeCycleCallbacks()
  */
 class Comment
 {
@@ -152,5 +153,12 @@ class Comment
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistEvent(){
+        $this->createdAt = new \DateTime();
     }
 }

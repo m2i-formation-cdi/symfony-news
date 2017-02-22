@@ -77,7 +77,7 @@ class Article
     /**
      * @var Author
      *
-     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\ManyToOne(targetEntity="Author", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;

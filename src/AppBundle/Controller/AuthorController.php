@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Author;
+use AppBundle\Form\AuthorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -37,8 +40,31 @@ class AuthorController extends Controller
      * @Route("/new", name="author_new")
      * @return Response
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        return $this->render('article/form.html.twig');
+        $author = new Author();
+
+        //Création d'un nouveau formulaire
+        $form = $this->createForm(AuthorType::class,
+            $author,
+            array(
+                'action' => $this->generateUrl('author_new')
+            )
+        );
+
+        //Hydratation du formulaire avec les données de la requête
+        $form->handleRequest($request);
+
+        //Traitement du formulaire s'il est valide
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($author);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_home');
+        }
+
+        //Affichage du formulaire
+        return $this->render('author/form.html.twig', array('authorForm' => $form->createView()));
     }
 }

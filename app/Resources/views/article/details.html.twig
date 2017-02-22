@@ -19,15 +19,18 @@
 
     <div class="row">
         <div class="col-md-4">
-            <img class="img-responsive"
-                 src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
-            <figure>
+            {% if article.image |length >0 %}
 
-                <figcaption>
-                    {{ article.image.legend }}<br>
-                    crédit : {{ article.image.credit }}
-                </figcaption>
-            </figure>
+                <figure>
+                    <img class="img-responsive"
+                         src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
+                    <figcaption>
+                        {{ article.image.legend }}<br>
+                        crédit : {{ article.image.credit }}
+                    </figcaption>
+                </figure>
+
+            {% endif %}
         </div>
 
         <div class="col-md-8">
@@ -40,6 +43,7 @@
     <div class="row">
         <div class="col-md-4">
             Formulaire ajout de commentaire
+            {{ form(commentForm) }}
         </div>
 
         <div class="col-md-8">

@@ -20,6 +20,9 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('admin/index.html.twig');
+        $authorRepository = $this->getDoctrine()->getRepository('AppBundle:Author');
+        $authors = $authorRepository->getAuthorList();
+
+        return $this->render('admin/index.html.twig', array('authors' => $authors));
     }
 }

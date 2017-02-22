@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="authors")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AuthorRepository")
+ * @ORM\HasLifeCycleCallbacks()
  */
 class Author
 {
@@ -56,6 +58,12 @@ class Author
      * @ORM\Column(name="password", type="string", length=128)
      */
     private $password;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="author")
+     */
+    private $articles;
 
 
 
@@ -166,5 +174,12 @@ class Author
      */
     public function getFullName(){
         return implode(' ', array_filter([$this->firstName, $this->name]));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistEvent(){
+        $this->password = sha1($this->password);
     }
 }

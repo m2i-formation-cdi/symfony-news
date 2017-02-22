@@ -3,6 +3,14 @@
 {% block content %}
     <h1>Zone sécurisée des auteurs</h1>
 
+    <!-- Affichage des messages Flash de type Info -->
+    {% for message in app.session.flashBag.get('info') %}
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <table class="table">
         <tr>
             <th>Article</th>
