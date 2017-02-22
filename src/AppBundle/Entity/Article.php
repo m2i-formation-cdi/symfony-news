@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="articles")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
+ * @ORM\HasLifeCycleCallbacks()
  */
 class Article
 {
@@ -185,7 +186,6 @@ class Article
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -273,6 +273,7 @@ class Article
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -339,5 +340,21 @@ class Article
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistEvent(){
+        if($this->createdAt == null){
+            $this->createdAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdateEvent(){
+        $this->createdAt = new \DateTime();
     }
 }
