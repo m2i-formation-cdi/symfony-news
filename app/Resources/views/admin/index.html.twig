@@ -1,31 +1,45 @@
-{% extends 'layouts/front-layout.html.twig' %}
+{% extends 'base-layout.html.twig' %}
 
 {% block content %}
-    <h1>Administration du blog</h1>
+    <h1>Authors list</h1>
 
-    <h2>Liste des auteurs</h2>
-    <table class="table">
-        <tr>
-            <th>Auteur</th>
-            <th>nb article</th>
-        </tr>
-
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Firstname</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for author in authors %}
-        <tr>
-            <td>{{ author.fullName }}</td>
-            <td>{{ author.numberOfArticles }}</td>
-        </tr>
+            <tr>
+                <td><a href="{{ path('admin_author_show', { 'id': author.id }) }}">{{ author.id }}</a></td>
+                <td>{{ author.name }}</td>
+                <td>{{ author.firstName }}</td>
+                <td>{{ author.email }}</td>
+                <td>{{ author.password }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_author_show', { 'id': author.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_author_edit', { 'id': author.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
         {% endfor %}
+        </tbody>
     </table>
-{% endblock %}
 
-{% block aside %}
-    <ul class="nav nav-pills nav-stacked">
+    <ul>
         <li>
-            <a href="{{ path('author_new') }}" class="btn btn-default">
-                <i class="glyphicon glyphicon-plus"></i>
-                Nouvel auteur
-            </a>
+            <a href="{{ path('admin_author_new') }}">Create a new author</a>
         </li>
     </ul>
 {% endblock %}
