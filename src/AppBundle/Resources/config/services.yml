@@ -13,13 +13,13 @@ services:
   app.form.data_transformer.article:
     class: AppBundle\Form\DataTransformer\EntityToIntDataTransformer
     arguments:
-      - @doctrine.orm.entity_manager
-      - "AppBundle\Entity\Article"
+      - "@doctrine.orm.entity_manager"
+      - "AppBundle\\Entity\\Article"
       - "AppBundle:Article"
 
   app.form.type.comment:
       class: AppBundle\Form\CommentType
-      arguments: [@app.form.data_transformer.article]
+      arguments: ["@app.form.data_transformer.article"]
       tags:
         - { name: form.type}
 
@@ -28,13 +28,13 @@ services:
     factory_method: create
     class: Symfony\Component\Form\Form
     arguments:
-      - @app.form.type.comment
+      - "@app.form.type.comment"
 
 
   app.formhandler.comment:
     class: AppBundle\Form\FormHandler\CommentFormHandler
     arguments:
-      - @app.form.comment
-      - @request
-      - @doctrine.orm.entity_manager
+      - "@app.form.comment"
+      - "@request_stack"
+      - "@doctrine.orm.entity_manager"
     scope: request
