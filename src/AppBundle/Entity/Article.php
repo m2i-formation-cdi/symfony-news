@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Author;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -34,6 +35,13 @@ class Article
      * @ORM\Column(name="title", type="string", length=80, unique=true)
      */
     private $title;
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
 
     /**
      * @var string
@@ -69,7 +77,7 @@ class Article
 
     /**
      * @var Image
-     *
+     * @Assert\Valid
      * @ORM\OneToOne(targetEntity="Image", cascade = {"persist", "remove"})
      */
     private $image;
@@ -131,6 +139,27 @@ class Article
     {
         return $this->title;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+
 
     /**
      * Set lead
@@ -357,5 +386,13 @@ class Article
      */
     public function preUpdateEvent(){
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * Indique si l'article possède une image associée
+     * @return bool
+     */
+    public function hasImage(){
+        return ($this->image !== null);
     }
 }

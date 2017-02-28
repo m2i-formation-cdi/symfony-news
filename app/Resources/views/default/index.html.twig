@@ -8,7 +8,7 @@
     {% for article in lastArticles %}
         <article class="col-md-6">
             <h2>
-                <a href="{{ path('article_details', {'id': article.id}) }}">{{ article.title }}</a>
+                <a href="{{ path('article_details', {'slug': article.slug}) }}">{{ article.title }}</a>
             </h2>
             <p class="lead">
                 par {{ article.author.fullName }}
@@ -25,7 +25,7 @@
             {% endif %}
             <p>{{ article.lead }}</p>
             <a class="btn btn-primary"
-               href="{{ path('article_details', {'id': article.id}) }}">
+               href="{{ path('article_details', {'slug': article.slug}) }}">
                 En savoir plus
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </a>

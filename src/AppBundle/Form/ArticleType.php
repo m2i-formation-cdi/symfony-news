@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Form\DataTransformer\TagsDataTransformer;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -14,6 +16,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->entityManager = $em;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -30,17 +40,13 @@ class ArticleType extends AbstractType
                 'label' => 'Texte',
                 'attr' => array('rows' => 12)
             ))
-            //->add('image')
-            ->add('author', EntityType::class, array(
-                'label' => 'Auteur',
-                'class' => 'AppBundle\Entity\Author',
-                'choice_label' => 'fullName',
-                'placeholder' => 'Choisissez un auteur'
-            ))
-            //->add('tags')
+            ->add('tags', TextType::class, array('label' => 'Tags'))
+            ->add('image', ImageType::class, array('required' => false))
             ->add('Enregistrer',SubmitType::class)
             ->add('Annuler',ResetType::class)
         ;
+
+        $builder->get('tags')->addModelTransformer(new TagsDataTransformer($this->entityManager));
     }
     
     /**
@@ -49,7 +55,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Article'
+            'data_class' => 'AppBundle\Entity\Article',
         ));
     }
 }

@@ -54,7 +54,7 @@ class ArticleRepository extends EntityRepository
         $qb = $this->createQueryBuilder('a')
             ->select("a.id, a.title, a.lead, a.createdAt,
                 concat_ws(' ',w.firstName,w.name) as authorName,
-                COUNT(a.id) as numberOfComments")
+                COUNT(a.id) as numberOfComments, a.slug")
             ->join('a.comments','c')
             ->join('a.author','w')
             ->orderBy('numberOfComments', 'DESC')
@@ -90,6 +90,22 @@ class ArticleRepository extends EntityRepository
             ->join('a.author', 'w')
             ->where('w.id= :id')
             ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getTotalNumberOfArticles(){
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getArticlesByPage($maxPerPage, $page = 1){
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->setFirstResult(($page-1) * $maxPerPage)
+            ->setMaxResults($maxPerPage);
 
         return $qb->getQuery()->getResult();
     }

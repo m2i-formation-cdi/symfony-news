@@ -34,8 +34,8 @@
         </div>
 
         <div class="col-md-8">
-            <p class="lead">{{ article.lead }}</p>
-            <p>{{ article.text }}</p>
+            <p class="lead">{{ article.lead | purify }}</p>
+            <p>{{ article.text | purify }}</p>
         </div>
     </div>
 
@@ -59,4 +59,6 @@
             {% endfor %}
         </div>
     </div>
+
+    {{ dump(commentForm) }}
 {% endblock %}

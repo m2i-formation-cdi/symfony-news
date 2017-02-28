@@ -7,9 +7,17 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AuthorFixture extends AbstractFixture implements OrderedFixtureInterface
+
+class AuthorFixture extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Load data fixtures with the passed EntityManager
@@ -27,7 +35,7 @@ class AuthorFixture extends AbstractFixture implements OrderedFixtureInterface
             $authors[$i]->setFirstName($faker->firstName)
                 ->setName($faker->name)
                 ->setEmail($faker->email)
-                ->setPassword(sha1('pass'));
+                ->setPlainPassword('pass');
 
             $manager->persist($authors[$i]);
 

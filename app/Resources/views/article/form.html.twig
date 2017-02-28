@@ -3,10 +3,53 @@
 {% block content %}
     <h1>Formulaire article</h1>
 
-    {{ form(articleForm) }}
+    {{ form_start(articleForm) }}
+
+    {{ form_errors(articleForm) }}
+
+    {{ form_row(articleForm.title) }}
+    {{ form_row(articleForm.lead) }}
+    {{ form_row(articleForm.text) }}
+    {{ form_row(articleForm.tags) }}
+
+    <div class="row">
+        <fieldset>
+            <legend>Image</legend>
+            <div class="col-md-6">
+                {{ form_row(articleForm.image.legend) }}
+                {{ form_row(articleForm.image.credit) }}
+                {{ form_row(articleForm.image.uploadedFile) }}
+            </div>
+            <div class="col-md-6">
+                {% set hasImage = (articleForm.image.vars.data.fileName is defined) %}
+
+                {% if hasImage %}
+                    {{ form_row(articleForm.image.toBeDeleted) }}
+                    <img src="{{ asset('img/photos/' ~ articleForm.image.vars.data.fileName) }}"
+                         class="article-medium-img">
+                {% else %}
+                    {% do articleForm.image.toBeDeleted.setRendered %}
+                {% endif %}
+            </div>
+        </fieldset>
+    </div>
+    <div class="row">
+        {{ form_rest(articleForm) }}
+    </div>
+    {{ form_end(articleForm) }}
 
 {% endblock %}
 
 {% block aside %}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace( 'article_text' );
+        CKEDITOR.replace( 'article_lead' );
+    </script>
 {% endblock %}

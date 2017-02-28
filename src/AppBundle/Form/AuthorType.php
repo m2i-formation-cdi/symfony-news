@@ -23,7 +23,7 @@ class AuthorType extends AbstractType
             ->add('name', TextType::class, array('label' => 'Nom'))
             ->add('firstName', TextType::class, array('label' => 'Prénom'))
             ->add('email', EmailType::class, array('label' => 'e-mail'))
-            ->add('password', PasswordType::class, array('label' => 'mot de passe'))
+            ->add('plainPassword', PasswordType::class, array('label' => 'mot de passe'))
             ->add('Enregistrer',SubmitType::class)
             ->add('Annuler',ResetType::class)
         ;
