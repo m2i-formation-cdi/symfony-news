@@ -1,3 +1,10 @@
 services:
   data_provider:
     class: AppBundle\Services\FakeDataProvider
+
+  app.hello:
+    class: AppBundle\Services\HelloService
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@mailer'
+      - 'admin@mail.com'

@@ -183,4 +183,35 @@ class PlaygroundController extends Controller
     private function getAuthorRepository(){
         return $this->getDoctrine()->getRepository('AppBundle:Author');
     }
+
+    /**
+     * @Route("/sendmail")
+     */
+    public function sendMail(){
+        $message = \Swift_Message::newInstance()
+            ->setSubject('test')
+            ->setFrom('moi@moi.com')
+            ->setTo('lui@lui.com')
+            ->setBody('Un test');
+
+        $this->get('mailer')->send($message);
+
+        return $this->render('playground/sendmail.html.twig');
+    }
+
+    /**
+     * @return Response
+     * @Route("/")
+     */
+    public function indexAction(){
+
+        $helloService = $this->get('app.hello');
+        $message = $helloService->sayHello(4);
+
+        $helloService->notify();
+
+        return $this->render('playground/index.html.twig',
+        ['message' => $message]
+        );
+    }
 }

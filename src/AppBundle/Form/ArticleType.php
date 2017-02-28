@@ -31,12 +31,13 @@ class ArticleType extends AbstractType
                 'attr' => array('rows' => 12)
             ))
             //->add('image')
+               /*
             ->add('author', EntityType::class, array(
                 'label' => 'Auteur',
                 'class' => 'AppBundle\Entity\Author',
                 'choice_label' => 'fullName',
                 'placeholder' => 'Choisissez un auteur'
-            ))
+            ))*/
             //->add('tags')
             ->add('Enregistrer',SubmitType::class)
             ->add('Annuler',ResetType::class)

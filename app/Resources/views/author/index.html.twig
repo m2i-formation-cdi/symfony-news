@@ -1,10 +1,33 @@
-{% extends 'layouts/front-layout.html.twig' %}
+{% extends 'base-layout.html.twig' %}
 
 {% block content %}
+    <h1>Accès auteur</h1>
 
+    <h2>Liste des articles</h2>
+    <h3>{{ author.email }}</h3>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Nombre de commentaires</th>
+        </tr>
+
+        {% for article in articles %}
+            <tr>
+                <td>
+                    <a href="{{ path('author_update_article', {id: article.id}) }}">
+                        {{ article.title }}
+                    </a>
+                </td>
+                <td>{{ article.comments | length }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
 
 {% block aside %}
-
+    <a class="btn btn-primary" href="{{ path('author_new_article') }}">
+        Ajouter un article
+    </a>
 {% endblock %}
 
