@@ -33,7 +33,7 @@ class AuthorFixture extends AbstractFixture implements OrderedFixtureInterface, 
         for($i=0 ; $i < $nbFixtures; $i++){
             $authors[$i] = new Author();
             $authors[$i]->setFirstName($faker->firstName)
-                ->setName($faker->name)
+                ->setName($faker->lastName)
                 ->setEmail($faker->email)
                 ->setPlainPassword('pass');
 
