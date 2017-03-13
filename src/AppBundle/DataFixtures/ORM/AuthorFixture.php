@@ -27,7 +27,7 @@ class AuthorFixture extends AbstractFixture implements OrderedFixtureInterface
             $authors[$i]->setFirstName($faker->firstName)
                 ->setName($faker->lastName)
                 ->setEmail($faker->email)
-                ->setPassword(sha1('pass'));
+                ->setPlainPassword('pass');
 
             $manager->persist($authors[$i]);
 

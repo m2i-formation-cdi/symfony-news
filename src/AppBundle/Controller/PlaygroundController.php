@@ -108,37 +108,22 @@ class PlaygroundController extends Controller
      * @return Response
      */
     public function testArticleAction(){
-        $authorRepo = $this->getAuthorRepository();
-        $author = $authorRepo->findOneBy(array('email' =>'plegrand@gmail.com'));
 
-        $image = new Image();
-        $image->setFileName('img02.jpg')
-            ->setLegend('ma belle image')
-            ->setCredit('mon oeuvre à moi');
+        $author = $this ->getDoctrine()
+                        ->getRepository('AppBundle:Author')
+                        ->findAll()[0];
+
+        $em = $this->getDoctrine()->getManager();
 
         $article = new Article();
-        $article->setAuthor($author)
-            ->setTitle('Mon premier article')
-            ->setLead('bla bla')
-            ->setText('lorem ipsum')
-            ->setCreatedAt(new DateTime('today'))
-            ->setImage($image);
-
-        $tag = new Tag();
-        $tag->setTagName('Java');
-        $article->addTag($tag);
-
-        $tag = new Tag();
-        $tag->setTagName('Hibernate');
-        $article->addTag($tag);
-
-
-        //Persistence de l'article
-        $em = $this->getDoctrineManager();
+        $article->setTitle('Mon titre 2')
+                ->setAuthor($author)
+                ->setText('Mon texte')
+                ->setLead('Mon chapô');
 
         $em->persist($article);
-
         $em->flush();
+
 
 
         $articleRepo = $this->getDoctrine()->getRepository('AppBundle:Article');

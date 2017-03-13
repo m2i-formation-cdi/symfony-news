@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="authors")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Author
 {
@@ -48,6 +49,29 @@ class Author
      * @ORM\Column(name="password", type="string", length=128)
      */
     private $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return Author
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
 
 
 
@@ -158,5 +182,13 @@ class Author
      */
     public function getFullName(){
         return implode(' ', array_filter([$this->firstName, $this->name]));
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersistEvent(){
+        $this->password = sha1($this->plainPassword);
+        $this->plainPassword = null;
     }
 }
