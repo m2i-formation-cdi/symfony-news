@@ -18,9 +18,11 @@
                 Publié le {{ article.createdAt | date('d/m/Y') }}
             </p>
             <hr>
-            <img class="img-responsive img-circle article-medium-img"
-                 src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
-            <hr>
+            {% if article.image.filename is defined %}
+                <img class="img-responsive img-circle article-medium-img"
+                     src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
+                <hr>
+            {% endif %}
             <p>{{ article.lead }}</p>
             <a class="btn btn-primary"
                href="{{ path('article_details', {'id': article.id}) }}">
