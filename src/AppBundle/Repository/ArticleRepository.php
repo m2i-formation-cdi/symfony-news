@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository
 {
+    public function getRecentArticles($numberOfArticles){
+        $qb = $this->createQueryBuilder('a');
+        $qb ->select('a')
+            ->orderBy('a.createdAt', 'desc')
+            ->setMaxResults($numberOfArticles);
+        return $qb->getQuery()->getResult();
+    }
 }
