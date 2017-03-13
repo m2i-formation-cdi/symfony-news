@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comment;
+use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractFrontEndController;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +41,23 @@ class ArticleController extends AbstractFrontEndController
 
         $params = $this->getAsideData();
         $params['article'] = $articleRepository->find($id);
+
+        //Instanciation de l'entité Comment
+        //pour utilisation dans le formulaire
+        $comment = new Comment();
+        $comment->setArticle($params['article']);
+
+        //Création du formulaire
+        $form = $this->createForm(
+            CommentType::class,
+            $comment,
+            [
+                'action' => $this->generateUrl('article_details', ['id' => $id])
+            ]
+        );
+
+        //Passage du formulaire à Twig
+        $params['commentForm'] = $form->createView();
 
         return $this->render('article/details.html.twig', $params);
     }

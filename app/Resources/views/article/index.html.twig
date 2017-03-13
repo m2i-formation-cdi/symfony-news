@@ -11,15 +11,18 @@
         {% for article in allArticles %}
         <div class="panel panel-default">
             <div class="panel-body">
-            <div class="col-md-3">
-                <img class="img-responsive img-circle article-small-img"
-                     src="{{ asset('img/photos/'~article.image.fileName) }}" alt="{{ article.image.legend }}">
-            </div>
-            <div class="col-md-9">
-            <h3 class="article-list-title">{{ article.title }}</h3>
-                <p>par {{ article.author.fullName }} le {{ article.createdAt | date('d/m/Y') }}</p>
-                <p>{{ article.comments | length }} commentaires</p>
-            </div>
+                <div class="col-md-3">
+                    {% if article.image.fileName is defined %}
+                        <img class="img-responsive img-circle article-small-img"
+                             src="{{ asset('img/photos/'~article.image.fileName) }}"
+                             alt="{{ article.image.legend }}">
+                    {% endif %}
+                </div>
+                <div class="col-md-9">
+                    <h3 class="article-list-title">{{ article.title }}</h3>
+                    <p>par {{ article.author.fullName }} le {{ article.createdAt | date('d/m/Y') }}</p>
+                    <p>{{ article.comments | length }} commentaires</p>
+                </div>
             </div>
             <div class="panel-footer text-right">
                 <a href="{{ path('article_details',{'id': article.id}) }}">En savoir plus</a>
