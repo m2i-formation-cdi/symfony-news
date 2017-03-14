@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Article;
+use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +52,21 @@ class AuthorController extends Controller
      */
     public function addEditAction($id = null)
     {
-        return $this->render('article/form.html.twig');
+        //Création de l'entité
+        $article = new Article();
+        $action = $this->generateUrl('article_new');
+
+        //Création du formulaire
+        $form = $this->createForm(
+            ArticleType::class,
+            $article,
+            [
+                'action' => $action
+            ]
+        );
+
+        return $this->render('article/form.html.twig', [
+            'articleForm' => $form->createView()
+        ]);
     }
 }
