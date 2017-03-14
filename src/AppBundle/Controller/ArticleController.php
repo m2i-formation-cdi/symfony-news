@@ -54,7 +54,8 @@ class ArticleController extends AbstractFrontEndController
             CommentType::class,
             $comment,
             [
-                'action' => $this->generateUrl('article_details', ['id' => $id])
+                'action' => $this->generateUrl('article_details', ['id' => $id]),
+                'attr' =>['novalidate' => 'novalidate']
             ]
         );
 
@@ -130,14 +131,5 @@ class ArticleController extends AbstractFrontEndController
         return $this->render('article/index.html.twig', $params);
     }
 
-    /**
-     * @Route("/new", name="article_new")
-     * @Route("/edit/{id}", name="article_edit")
-     * @param int $id
-     * @return Response
-     */
-    public function addEditAction($id = null)
-    {
-        return $this->render('article/form.html.twig');
-    }
+
 }

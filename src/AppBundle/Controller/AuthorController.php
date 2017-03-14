@@ -41,4 +41,15 @@ class AuthorController extends Controller
     {
         return $this->render('article/form.html.twig');
     }
+
+    /**
+     * @Route("/article-new", name="article_new")
+     * @Route("/article-edit/{id}", name="article_edit")
+     * @param int $id
+     * @return Response
+     */
+    public function addEditAction($id = null)
+    {
+        return $this->render('article/form.html.twig');
+    }
 }

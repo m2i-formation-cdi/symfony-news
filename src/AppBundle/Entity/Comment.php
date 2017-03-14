@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Article;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Comments
  *
@@ -26,6 +26,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=80)
+     * @Assert\NotBlank(message="Un commentaire doit avoir un auteur")
      */
     private $author;
 
@@ -33,6 +34,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="text", type="text")
+     * @Assert\NotBlank(message="Un commentaire doit avoir un texte")
      */
     private $text;
 
