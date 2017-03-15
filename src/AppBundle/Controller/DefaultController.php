@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Controller\AbstractFrontEndController;
 
@@ -50,16 +51,26 @@ class DefaultController extends AbstractFrontEndController
 
     /**
      * @Route("/login-admin", name="admin_login")
+     * @Route("/login-author", name="author_login")
      */
-    public function loginAction(){
+    public function loginAction(Request $request){
 
         $securityUtils = $this->get('security.authentication_utils');
         $userName = $securityUtils->getLastUsername();
         $error = $securityUtils->getLastAuthenticationError();
 
+        $currentRoute = $request->attributes->get('_route');
+        if($currentRoute == 'author_login'){
+            $formTitle = 'Auteurs';
+            $checkRoute = 'author_login_check';
+        } else {
+            $formTitle = 'Administrateur';
+            $checkRoute = 'admin_login_check';
+        }
+
         return $this->render('default/login.html.twig', [
-            'formTitle' => 'Administrateur',
-            'checkRoute' => 'admin_login_check',
+            'formTitle' => $formTitle,
+            'checkRoute' => $checkRoute,
             'userName' => $userName,
             'error' => $error
         ]);

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,8 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="authors")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AuthorRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Author
+class Author implements UserInterface
 {
 
     /**
@@ -63,6 +65,31 @@ class Author
      * @ORM\OneToMany(targetEntity="Article", mappedBy="author")
      */
     private $articles;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return Author
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+
 
     /**
      * Get id
@@ -212,5 +239,67 @@ class Author
     public function getArticles()
     {
         return $this->articles;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return ['ROLE_AUTHOR'];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersistEvent(){
+        $this->password = sha1($this->plainPassword);
+        $this->plainPassword = null;
     }
 }
