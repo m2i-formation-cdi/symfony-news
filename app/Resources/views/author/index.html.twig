@@ -10,17 +10,23 @@
             <th></th>
         </tr>
 
-        <tr>
-            <td>Article 1</td>
-            <td>5</td>
-            <td><a>modifier</a></td>
-        </tr>
+        {% for article in articles %}
+            <tr>
+                <td>
+                    <a href="{{ path('article_details', {id: article.id}) }}">
+                        {{ article.title }}
+                    </a>
+                </td>
+                <td>{{ article.comments | length }}</td>
+                <td>
+                    <a href="{{ path('article_edit', {id: article.id}) }}"
+                       class="btn btn-success">
+                        modifier
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
 
-        <tr>
-            <td>Article 2</td>
-            <td>3</td>
-            <td><a>modifier</a></td>
-        </tr>
     </table>
 {% endblock %}
 

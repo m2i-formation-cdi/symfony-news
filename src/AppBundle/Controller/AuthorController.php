@@ -23,7 +23,15 @@ class AuthorController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('author/index.html.twig');
+        $author = $this->getUser();
+        $articleRepository = $this->getDoctrine()
+            ->getRepository('AppBundle:Article');
+        $articles = $articleRepository->findByAuthor($author);
+
+        return $this->render(
+            'author/index.html.twig',
+            ['articles' => $articles]
+        );
     }
 
     /**
@@ -36,14 +44,7 @@ class AuthorController extends Controller
         return $this->render('author/form.html.twig');
     }
 
-    /**
-     * @Route("/new", name="author_new")
-     * @return Response
-     */
-    public function newAction()
-    {
-        return $this->render('article/form.html.twig');
-    }
+
 
     /**
      * @Route("/article-new", name="article_new")
@@ -53,13 +54,22 @@ class AuthorController extends Controller
      */
     public function addEditArticleAction($id = null, Request $request)
     {
-        //Récupération de l'auteur authentifié
-        $author = $this->getUser();
-        //Création de l'entité
-        $article = new Article();
-        //Liaison de l'article avec l'auteur
-        $article->setAuthor($author);
-        $action = $this->generateUrl('article_new');
+        if($id == null){
+            //Récupération de l'auteur authentifié
+            $author = $this->getUser();
+            //Création de l'entité
+            $article = new Article();
+            //Liaison de l'article avec l'auteur
+            $article->setAuthor($author);
+            $action = $this->generateUrl('article_new');
+
+        } else {
+            $articleRepository = $this->getDoctrine()
+                ->getRepository('AppBundle:Article');
+            $article = $articleRepository->find($id);
+
+            $action = $this->generateUrl('article_edit', ['id' => $id]);
+        }
 
         //Création du formulaire
         $form = $this->createForm(

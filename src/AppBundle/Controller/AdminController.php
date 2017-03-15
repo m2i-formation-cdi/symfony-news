@@ -22,4 +22,13 @@ class AdminController extends Controller
     {
         return $this->render('admin/index.html.twig');
     }
+
+    /**
+ * @Route("/new-author", name="author_new")
+ * @return Response
+ */
+    public function newAction()
+    {
+        return $this->render('article/form.html.twig');
+    }
 }
