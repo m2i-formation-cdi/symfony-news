@@ -51,10 +51,14 @@ class AuthorController extends Controller
      * @param int $id
      * @return Response
      */
-    public function addEditAction($id = null, Request $request)
+    public function addEditArticleAction($id = null, Request $request)
     {
+        //Récupération de l'auteur authentifié
+        $author = $this->getUser();
         //Création de l'entité
         $article = new Article();
+        //Liaison de l'article avec l'auteur
+        $article->setAuthor($author);
         $action = $this->generateUrl('article_new');
 
         //Création du formulaire

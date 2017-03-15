@@ -29,6 +29,8 @@ class ArticleType extends AbstractType
                     'attr' => ['rows' => 12]
             ])
             //->add('image')
+
+            /*
             ->add('author', EntityType::class, [
                 'class' => 'AppBundle\Entity\Author',
                 'label' => 'Auteur',
@@ -37,6 +39,8 @@ class ArticleType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ])
+            */
+
             //->add('tags')
             ->add('Valider', SubmitType::class)
         ;
