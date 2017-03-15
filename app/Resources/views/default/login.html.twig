@@ -1,0 +1,34 @@
+{% extends 'layouts/front-layout.html.twig' %}
+
+{% block content %}
+    <h3>Login {{ formTitle }}</h3>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.message | trans }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{{ path(checkRoute) }}">
+        <div class="form-group">
+            <label>Identifiant</label>
+            <input type="text"
+                   class="form-control"
+                   name="_username"
+                   value="{{ userName }}">
+        </div>
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" class="form-control" name="_password">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Connexion</button>
+    </form>
+{% endblock %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block aside %}{% endblock %}
+

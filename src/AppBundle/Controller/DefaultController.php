@@ -48,5 +48,22 @@ class DefaultController extends AbstractFrontEndController
         return $this->render('default/test.html.twig', array('data' => $data));
     }
 
+    /**
+     * @Route("/login-admin", name="admin_login")
+     */
+    public function loginAction(){
+
+        $securityUtils = $this->get('security.authentication_utils');
+        $userName = $securityUtils->getLastUsername();
+        $error = $securityUtils->getLastAuthenticationError();
+
+        return $this->render('default/login.html.twig', [
+            'formTitle' => 'Administrateur',
+            'checkRoute' => 'admin_login_check',
+            'userName' => $userName,
+            'error' => $error
+        ]);
+    }
+
 
 }

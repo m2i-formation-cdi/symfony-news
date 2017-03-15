@@ -6,6 +6,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -50,7 +51,7 @@ class AuthorController extends Controller
      * @param int $id
      * @return Response
      */
-    public function addEditAction($id = null)
+    public function addEditAction($id = null, Request $request)
     {
         //Création de l'entité
         $article = new Article();
@@ -64,6 +65,18 @@ class AuthorController extends Controller
                 'action' => $action
             ]
         );
+
+        //Traitement du formulaire
+        $form->handleRequest($request);
+
+        //Persistence de l'entité si le formulaire est valide
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            return $this->redirectToRoute('author_home');
+        }
 
         return $this->render('article/form.html.twig', [
             'articleForm' => $form->createView()

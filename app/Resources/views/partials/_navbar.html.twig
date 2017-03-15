@@ -26,8 +26,23 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ path('author_home') }}"><span class="glyphicon glyphicon-log-in"></span> Accès auteur</a></li>
-                <li><a href="{{ path('admin_home') }}"><span class="glyphicon glyphicon-cog"></span> Admin</a></li>
+                <li><a href="{{ path('author_home') }}">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        Accès auteur
+                    </a></li>
+                <li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin_logout') }}">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            déconnexion
+                        </a>
+                    {% else %}
+                        <a href="{{ path('admin_home') }}">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            Admin
+                        </a>
+                    {% endif %}
+                </li>
             </ul>
         </div>
     </div>
